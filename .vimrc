@@ -20,11 +20,12 @@ Bundle 'SearchComplete'
 "Bundle 'bufexplorer.zip'
 "Bundle 'beyondwords/vim-twig'
 "Bundle 'spf13/PIV'
-Bundle 'fholgado/minibufexpl.vim'
-Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neocomplete.vim'
 Bundle 'msanders/snipmate.vim'
 Bundle 'tpope/vim-fugitive'
-Bundle 'kien/ctrlp.vim'
+"Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'Shougo/unite.vim'
+Bundle 'Shougo/neomru.vim'
 "Bundle 'mattn/zencoding-vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim'}
 Bundle "mattn/emmet-vim"
@@ -68,6 +69,9 @@ Bundle 'DirDiff.vim'
 "Bundle 'itchyny/calendar.vim'
 "Bundle 'wting/rust.vim'
 Bundle 'tpope/vim-obsession'
+Bundle 'airblade/vim-gitgutter'
+"Bundle 'fholgado/minibufexpl.vim'
+Bundle 'bling/vim-airline'
 
 " Themes
 Bundle 'jnurmine/Zenburn'
@@ -143,7 +147,14 @@ let mapleader = "\<Space>"
 "nnoremap <silent> s<C-k>	:FufFile **/<CR>
 "map <leader>ff :FufFile<CR>
 "map <leader>fb :FufBuffer<CR>
-let g:neocomplcache_enable_at_startup = 1
+
+" neocomplete
+let g:neocomplete#enable_at_startup = 1
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " CtrlP {
 " set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
@@ -210,16 +221,26 @@ map <leader>k :execute ":w !fixmyjs " . expand("%")<CR>:edit<CR>
 map <leader>j :!jshint %<CR>
 
 "map <leader>y :w !pbcopy %<CR>
-nmap <leader>p :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-vmap <leader>y :w !pbcopy<CR><CR>
+"nmap <leader>p :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+"vmap <leader>y :w !pbcopy<CR><CR>
+
+"vmap <C-c> y:call system("pbcopy", getreg("\""))<CR>
+"nmap <C-v> :call setreg("\"",system("pbpaste"))<CR>p
+
+vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
+nmap <leader>p :call setreg("\"",system("pbpaste"))<CR>p
 
 nmap <C-Up> [e
 nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
-map <C-J> :MBEbn<CR>
-map <C-K> :MBEbp<CR>
-map <leader>d :MBEbd
+"map <C-J> :MBEbn<CR>
+"map <C-K> :MBEbp<CR>
+"map <leader>d :MBEbd
+map <C-J> :bn<CR>
+map <C-K> :bp<CR>
+map <leader>bd :bd<CR>
+
 map <C-L> :tabn<CR>
 map <C-H> :tabp<CR>
 map <leader>tn :tabn<CR>
@@ -230,7 +251,8 @@ map <leader>tp :tabp<CR>
 "map <M-Left> <C-W>h
 "map <M-Right> <C-W>l
 
-nmap <leader>f :Ack<space>
+"nmap <leader>f :Ack<space>
+nmap <leader>f :Ag<space>
 
 nmap <F3> I<C-R>=strftime("%I%M: ")<CR><Esc>A
 imap <F3> <Esc>I<C-R>=strftime("%I%M: ")<CR><Esc>A
@@ -274,10 +296,22 @@ function! JSFormat()
 endfunction
 
 "map <c-f> :call JsBeautify()<cr>
-autocmd FileType javascript noremap <buffer>  <c-e> :call JsBeautify()<cr>
-autocmd FileType html noremap <buffer> <c-e> :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <c-e> :call CSSBeautify()<cr>
+"autocmd FileType javascript noremap <buffer>  <c-e> :call JsBeautify()<cr>
+"autocmd FileType html noremap <buffer> <c-e> :call HtmlBeautify()<cr>
+"autocmd FileType css noremap <buffer> <c-e> :call CSSBeautify()<cr>
 autocmd BufWritePre * :%s/\s\+$//e
+
+
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_loc_list_height = 2
 
 function! JavascriptCheckers()
   if filereadable(getcwd() . '/.eslintrc')
@@ -294,15 +328,27 @@ let g:syntastic_javascript_checkers = JavascriptCheckers()
 "let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_html_tidy_ignore_errors=[" is not recognized!"]
 
+function! ToggleErrors()
+  let old_last_winnr = winnr('$')
+  lclose
+  if old_last_winnr == winnr('$')
+    " Nothing was closed, open syntastic error location panel
+    Errors
+  endif
+endfunction
+
+nnoremap <silent> <C-e> :<C-u>call ToggleErrors()<CR>
+
 " MiniBufExplorer
-map <leader>mbe :MBEOpen<CR>
-map <leader>mbc :MBEClose<CR>
-map <leader>mbt :MBEToggle<CR>
-map <leader>bn :MBEbn<CR>
-map <leader>bp :MBEbp<CR>
-map <leader>bd :MBEbd<CR>
-map <leader>bb :MBEbb<CR>
-map <leader>bf :MBEbf<CR>
+"map <leader>mbe :MBEOpen<CR>
+"map <leader>mbc :MBEClose<CR>
+"map <leader>mbt :MBEToggle<CR>
+"map <leader>bn :MBEbn<CR>
+"map <leader>bp :MBEbp<CR>
+"map <leader>bd :MBEbd<CR>
+"map <leader>bb :MBEbb<CR>
+"map <leader>bf :MBEbf<CR>
+
 map <leader>nt :NERDTreeFromBookmark<space>
 
 " orgmode
@@ -314,3 +360,21 @@ map <leader>nt :NERDTreeFromBookmark<space>
 "python from powerline.vim import setup as powerline_setup
 "python powerline_setup()
 "python del powerline_setup
+
+" airline
+let g:airline_theme='molokai'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_tab_nr = 1
+"let g:airline#extensions#tabline#tab_nr_type = 2
+
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+  nmap <leader>1 <Plug>AirlineSelectTab1
+  nmap <leader>2 <Plug>AirlineSelectTab2
+  nmap <leader>3 <Plug>AirlineSelectTab3
+  nmap <leader>4 <Plug>AirlineSelectTab4
+  nmap <leader>5 <Plug>AirlineSelectTab5
+  nmap <leader>6 <Plug>AirlineSelectTab6
+  nmap <leader>7 <Plug>AirlineSelectTab7
+  nmap <leader>8 <Plug>AirlineSelectTab8
+  nmap <leader>9 <Plug>AirlineSelectTab9
