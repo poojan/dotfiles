@@ -21,11 +21,19 @@ Bundle 'SearchComplete'
 "Bundle 'beyondwords/vim-twig'
 "Bundle 'spf13/PIV'
 Bundle 'Shougo/neocomplete.vim'
-Bundle 'msanders/snipmate.vim'
+
+"Bundle 'msanders/snipmate.vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Bundle 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+
 Bundle 'tpope/vim-fugitive'
-"Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'ctrlpvim/ctrlp.vim'
 Bundle 'Shougo/unite.vim'
 Bundle 'Shougo/neomru.vim'
+Bundle 'Shougo/vimproc.vim'
+Bundle 'junkblocker/unite-codesearch'
 "Bundle 'mattn/zencoding-vim'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim'}
 Bundle "mattn/emmet-vim"
@@ -176,7 +184,11 @@ let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|di
 "http://kien.github.io/ctrlp.vim/
 "let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_working_path_mode = 'a'
-
+nnoremap <leader>bb :CtrlPBuffer<cr>
+nnoremap <leader>bm :CtrlPMRU<cr>
+nnoremap <leader>ba :CtrlPMixed<cr>
+"nnoremap <C-b> :CtrlPBuffer<cr>
+"nnoremap <C-m> :CtrlPMRUFiles<cr>
 " }
 
 "if &term =~ '^gnome'
@@ -241,10 +253,10 @@ map <C-J> :bn<CR>
 map <C-K> :bp<CR>
 map <leader>bd :bd<CR>
 
-map <C-L> :tabn<CR>
-map <C-H> :tabp<CR>
-map <leader>tn :tabn<CR>
-map <leader>tp :tabp<CR>
+"map <C-L> :tabn<CR>
+"map <C-H> :tabp<CR>
+"map <leader>tn :tabn<CR>
+"map <leader>tp :tabp<CR>
 
 "map <M-Up> <C-W>k
 "map <M-Down> <C-W>j
@@ -308,6 +320,11 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_html_tidy_ignore_errors=[
+  \'proprietary attribute "ng-',
+  \'proprietary attribute "ion-',
+  \'proprietary attribute "ui-'
+\]
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
@@ -315,9 +332,15 @@ let g:syntastic_always_populate_loc_list = 1
 
 function! JavascriptCheckers()
   if filereadable(getcwd() . '/.eslintrc')
-    return ['eslint']
-  else
+    "if !empty(glob(getcwd() . '/node_modules/.bin/eslint'))
+      "return [ getcwd() . '/node_modules/.bin/eslint' ]
+    "endif
+    return [ 'eslint' ]
+
+  elseif filereadable(getcwd() . '/.jshintrc')
     return ['jshint']
+  else
+    return ['standard']
   endif
 endfunction
 
@@ -378,3 +401,16 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
   nmap <leader>7 <Plug>AirlineSelectTab7
   nmap <leader>8 <Plug>AirlineSelectTab8
   nmap <leader>9 <Plug>AirlineSelectTab9
+
+" unite
+let g:unite_source_history_yank_enable = 1
+"nnoremap <C-p> :Unite file_rec/async<cr>
+nnoremap <C-l> :Unite buffer file_mru file_rec/async<cr>
+nnoremap <leader>/ :Unite line<cr>
+nnoremap <leader>bu :Unite -quick-match buffer<cr>
+nnoremap <leader>;f :Unite file_rec/async<cr>
+
+" nerdcommenter
+let NERDSpaceDelims=1
+
+runtime macros/matchit.vim
