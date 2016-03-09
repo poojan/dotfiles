@@ -52,7 +52,7 @@ Bundle 'digitaltoad/vim-jade'
 Bundle 'wavded/vim-stylus'
 Bundle 'pangloss/vim-javascript'
 Bundle 'jelera/vim-javascript-syntax'
-Bundle 'editorconfig/editorconfig-vim'
+" Bundle 'editorconfig/editorconfig-vim'
 Bundle 'mxw/vim-jsx'
 "Bundle 'jsx/jsx.vim.git'
 Bundle 'nathanaelkane/vim-indent-guides'
@@ -80,6 +80,9 @@ Bundle 'tpope/vim-obsession'
 Bundle 'airblade/vim-gitgutter'
 "Bundle 'fholgado/minibufexpl.vim'
 Bundle 'bling/vim-airline'
+Bundle 'Scuilion/gradle-syntastic-plugin'
+Bundle 'artur-shaik/vim-javacomplete2'
+Bundle 'tpope/vim-classpath'
 
 " Themes
 Bundle 'jnurmine/Zenburn'
@@ -266,15 +269,15 @@ map <leader>bd :bd<CR>
 "nmap <leader>f :Ack<space>
 nmap <leader>f :Ag<space>
 
-nmap <F3> I<C-R>=strftime("%I%M: ")<CR><Esc>A
-imap <F3> <Esc>I<C-R>=strftime("%I%M: ")<CR><Esc>A
+" nmap <F3> I<C-R>=strftime("%I%M: ")<CR><Esc>A
+" imap <F3> <Esc>I<C-R>=strftime("%I%M: ")<CR><Esc>A
 
-nmap <F5> :!gnsync --path /home/poojan/Documents/geeknote/Journal --mask "*.md" --format markdown > /dev/null<CR>
-nmap <S-F5> :e /home/poojan/Documents/geeknote/Journal/Nov2013.md<CR>zRG
+" nmap <F5> :!gnsync --path /home/poojan/Documents/geeknote/Journal --mask "*.md" --format markdown > /dev/null<CR>
+" nmap <S-F5> :e /home/poojan/Documents/geeknote/Journal/Nov2013.md<CR>zRG
 
-map <F7> :python debugger_globals()<cr>
-map <F8> :python debugger_context()<cr>
-map <F9> :python debugger_property()<cr>
+" map <F7> :python debugger_globals()<cr>
+" map <F8> :python debugger_context()<cr>
+" map <F9> :python debugger_property()<cr>
 
 nnoremap <A-a> <C-a>
 nnoremap <A-x> <C-x>
@@ -336,6 +339,10 @@ function! JavascriptCheckers()
       "return [ getcwd() . '/node_modules/.bin/eslint' ]
     "endif
     return [ 'eslint' ]
+  elseif filereadable(getcwd() . '/../.eslintrc')
+    return [ 'eslint' ]
+  elseif filereadable(getcwd() . '/../../.eslintrc')
+    return [ 'eslint' ]
 
   elseif filereadable(getcwd() . '/.jshintrc')
     return ['jshint']
@@ -390,6 +397,7 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 "let g:airline#extensions#tabline#show_tab_nr = 1
 "let g:airline#extensions#tabline#tab_nr_type = 2
+"
 
 let g:airline#extensions#tabline#buffer_idx_mode = 1
   nmap <leader>1 <Plug>AirlineSelectTab1
@@ -414,3 +422,22 @@ nnoremap <leader>;f :Unite file_rec/async<cr>
 let NERDSpaceDelims=1
 
 runtime macros/matchit.vim
+
+let g:syntastic_java_checkers=['javac']
+let g:syntastic_java_javac_config_file_enabled = 1
+
+" javacomplete2
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+let g:JavaComplete_GradleExecutable = 'gradle'
+
+" To enable inserting class imports with F4, add:
+nmap <F4> <Plug>(JavaComplete-Imports-Add)
+imap <F4> <Plug>(JavaComplete-Imports-Add)
+
+" To add all missing imports with F5:
+nmap <F5> <Plug>(JavaComplete-Imports-AddMissing)
+imap <F5> <Plug>(JavaComplete-Imports-AddMissing)
+
+" To remove all missing imports with F6:
+nmap <F6> <Plug>(JavaComplete-Imports-RemoveUnused)
+imap <F6> <Plug>(JavaComplete-Imports-RemoveUnused)
