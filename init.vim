@@ -30,6 +30,7 @@ set fileencodings=utf-8
 "" Map leader to <Space>
 let mapleader = "\<Space>"
 
+
 "" Fix backspace indent
 set backspace=indent,eol,start
 
@@ -43,6 +44,20 @@ autocmd FileType c setlocal sw=4 ts=4 sts=4
 autocmd FileType cpp setlocal sw=4 ts=4 sts=4
 autocmd FileType java setlocal sw=4 ts=4 sts=4
 autocmd FileType php setlocal sw=4 ts=4 sts=4
+
+"" Enable hidden buffers
+set hidden
+
+"" Searching
+set hlsearch
+set incsearch
+" set ignorecase
+set smartcase
+
+"" Encoding
+set bomb
+set binary
+
 
 "" Match Tags
 runtime macros/matchit.vim
@@ -75,7 +90,6 @@ endif
 "*****************************************************************************
 "" Visual Settings
 "*****************************************************************************
-set t_Co=256
 syntax on
 set ruler
 set number
@@ -84,6 +98,16 @@ let no_buffers_menu=1
 if !exists('g:not_finsh_neobundle')
   colorscheme Monokai-Refined
 endif
+
+set t_Co=256
+set cursorline
+set guioptions=egmrti
+set gfn=Monospace\ 10
+
+
+"*****************************************************************************
+"" Plugins
+"*****************************************************************************
 
 "" airline
 let g:airline_theme='molokai'
