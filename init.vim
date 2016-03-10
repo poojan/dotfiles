@@ -7,15 +7,17 @@ call plug#begin('~/.vim/plugged')
 Plug 'ggreer/the_silver_searcher' | Plug 'rking/ag.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ctrlpvim/ctrlp.vim', { 'on':  'CtrlP' }
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-gitgutter'
+Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
+Plug 'wavded/vim-stylus'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 
