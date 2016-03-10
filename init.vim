@@ -22,7 +22,27 @@ call plug#end()
 "*****************************************************************************
 "" Basic Setup
 "*****************************************************************************"
+"" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+"" Map leader to <Space>
 let mapleader = "\<Space>"
+
+"" Fix backspace indent
+set backspace=indent,eol,start
+
+"" Tabs. May be overriten by autocmd rules
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+autocmd FileType c setlocal sw=4 ts=4 sts=4
+autocmd FileType cpp setlocal sw=4 ts=4 sts=4
+autocmd FileType java setlocal sw=4 ts=4 sts=4
+autocmd FileType php setlocal sw=4 ts=4 sts=4
 
 "" Match Tags
 runtime macros/matchit.vim
