@@ -17,6 +17,10 @@ Plug 'jaromero/vim-monokai-refined'
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 
+" Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
+" Plug 'ternjs/tern_for_vim'
+
 call plug#end()
 
 
@@ -188,10 +192,6 @@ function! JavascriptCheckers()
 endfunction
 
 let g:syntastic_javascript_checkers = JavascriptCheckers()
-"let g:syntastic_javascript_checkers = ['jshint']
-"let g:syntastic_javascript_checkers = ['jsxhint', 'eslint']
-"let g:syntastic_javascript_checkers = ['eslint', 'jshint']
-"let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
 let g:syntastic_html_tidy_ignore_errors=[" is not recognized!"]
 
 function! ToggleErrors()
