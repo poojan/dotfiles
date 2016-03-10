@@ -8,6 +8,7 @@ Plug 'ggreer/the_silver_searcher' | Plug 'rking/ag.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim', { 'on':  'CtrlP' }
+Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
@@ -139,7 +140,8 @@ let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|di
 "http://kien.github.io/ctrlp.vim/
 let g:ctrlp_working_path_mode = 'a'
 
-
+" Deoplete
+let g:deoplete#enable_at_startup = 1
 
 " vim-javascript
 let g:javascript_enable_domhtmlcss = 1
