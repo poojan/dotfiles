@@ -4,11 +4,13 @@ call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ctrlpvim/ctrlp.vim', { 'on':  'CtrlP' }
 Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
-Plug 'ctrlpvim/ctrlp.vim', { 'on':  'CtrlP' }
-Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 
 call plug#end()
@@ -42,17 +44,38 @@ if !exists('g:not_finsh_neobundle')
   colorscheme Monokai-Refined
 endif
 
+"" airline
+let g:airline_theme='molokai'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#show_tab_nr = 1
+"let g:airline#extensions#tabline#tab_nr_type = 2
+"
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+  nmap <leader>1 <Plug>AirlineSelectTab1
+  nmap <leader>2 <Plug>AirlineSelectTab2
+  nmap <leader>3 <Plug>AirlineSelectTab3
+  nmap <leader>4 <Plug>AirlineSelectTab4
+  nmap <leader>5 <Plug>AirlineSelectTab5
+  nmap <leader>6 <Plug>AirlineSelectTab6
+  nmap <leader>7 <Plug>AirlineSelectTab7
+  nmap <leader>8 <Plug>AirlineSelectTab8
+  nmap <leader>9 <Plug>AirlineSelectTab9
+
 
 "" CtrlP
 let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|dist|bower_components|ant-build|platforms)|(\.(swp|ico|git|svn))$'
 "http://kien.github.io/ctrlp.vim/
 let g:ctrlp_working_path_mode = 'a'
 
+
 " NERDCommenter
 let NERDSpaceDelims=1
 
+
 "" NERDTree
 map <leader><leader> :NERDTreeToggle<CR>
+
 
 "" Syntastic
 set statusline+=%#warningmsg#
