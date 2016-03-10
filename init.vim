@@ -14,6 +14,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'digitaltoad/vim-jade'
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+Plug 'plasticboy/vim-markdown'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
@@ -77,7 +78,7 @@ map <C-K> :bp<CR>
 map <leader>bd :bd<CR>
 
 "" System clipboard
-" vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
+vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
 " nmap <leader>p :call setreg("\"",system("pbpaste"))<CR>p
 
 "" Copy/Paste/Cut
