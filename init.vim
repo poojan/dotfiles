@@ -110,6 +110,16 @@ let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|di
 let g:ctrlp_working_path_mode = 'a'
 
 
+
+" vim-javascript
+let g:javascript_enable_domhtmlcss = 1
+
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
+augroup END
+
+
 " NERDCommenter
 let NERDSpaceDelims=1
 
