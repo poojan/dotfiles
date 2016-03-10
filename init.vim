@@ -53,8 +53,23 @@ map <C-K> :bp<CR>
 map <leader>bd :bd<CR>
 
 "" System clipboard
-vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
-nmap <leader>p :call setreg("\"",system("pbpaste"))<CR>p
+" vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
+" nmap <leader>p :call setreg("\"",system("pbpaste"))<CR>p
+
+"" Copy/Paste/Cut
+if has('unnamedplus')
+  set clipboard=unnamed,unnamedplus
+endif
+
+noremap YY "+y<CR>
+noremap <leader>p "+gP<CR>
+noremap XX "+x<CR>
+
+if has('macunix')
+  " pbcopy for OSX copy/paste
+  vmap <C-x> :!pbcopy<CR>
+  vmap <C-c> :w !pbcopy<CR><CR>
+endif
 
 
 "*****************************************************************************
