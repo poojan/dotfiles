@@ -8,7 +8,7 @@ Plug 'ggreer/the_silver_searcher' | Plug 'rking/ag.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-gitgutter'
 Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
@@ -23,9 +23,9 @@ Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
-Plug 'ternjs/tern_for_vim'
+" Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
+" Plug 'ternjs/tern_for_vim'
 
 call plug#end()
 
@@ -225,3 +225,9 @@ function! ToggleErrors()
 endfunction
 
 nnoremap <silent> <C-e> :<C-u>call ToggleErrors()<CR>
+
+
+"" Tern
+nnoremap <leader>tt :TernType<cr>
+let g:tern#is_show_argument_hints_enabled = 1
+let tern#is_show_argument_hints_enabled = 1
