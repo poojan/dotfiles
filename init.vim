@@ -11,6 +11,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
+Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 
 call plug#end()
@@ -20,6 +21,9 @@ call plug#end()
 "" Basic Setup
 "*****************************************************************************"
 let mapleader = "\<Space>"
+
+"" Match Tags
+runtime macros/matchit.vim
 
 "" Buffers
 map <C-J> :bn<CR>
