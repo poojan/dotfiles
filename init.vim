@@ -11,14 +11,15 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'airblade/vim-gitgutter'
-Plug 'digitaltoad/vim-jade'
+Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
-Plug 'wavded/vim-stylus'
+Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
 
