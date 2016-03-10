@@ -7,7 +7,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'jaromero/vim-monokai-refined'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim', { 'on':  'CtrlP' }
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
 
 call plug#end()
 
@@ -16,6 +18,16 @@ call plug#end()
 "" Basic Setup
 "*****************************************************************************"
 let mapleader = "\<Space>"
+
+"" Buffers
+map <C-J> :bn<CR>
+map <C-K> :bp<CR>
+map <leader>bd :bd<CR>
+
+"" System clipboard
+vmap <leader>y y:call system("pbcopy", getreg("\""))<CR>
+nmap <leader>p :call setreg("\"",system("pbpaste"))<CR>p
+
 
 "*****************************************************************************
 "" Visual Settings
@@ -30,5 +42,66 @@ if !exists('g:not_finsh_neobundle')
   colorscheme Monokai-Refined
 endif
 
-"" NERDTree configuration
+
+"" CtrlP
+let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|dist|bower_components|ant-build|platforms)|(\.(swp|ico|git|svn))$'
+"http://kien.github.io/ctrlp.vim/
+let g:ctrlp_working_path_mode = 'a'
+
+" NERDCommenter
+let NERDSpaceDelims=1
+
+"" NERDTree
 map <leader><leader> :NERDTreeToggle<CR>
+
+"" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_html_tidy_ignore_errors=[
+  \'proprietary attribute "ng-',
+  \'proprietary attribute "ion-',
+  \'proprietary attribute "ui-'
+\]
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_loc_list_height = 2
+
+function! JavascriptCheckers()
+  if filereadable(getcwd() . '/.eslintrc')
+    "if !empty(glob(getcwd() . '/node_modules/.bin/eslint'))
+      "return [ getcwd() . '/node_modules/.bin/eslint' ]
+    "endif
+    return [ 'eslint' ]
+  elseif filereadable(getcwd() . '/../.eslintrc')
+    return [ 'eslint' ]
+  elseif filereadable(getcwd() . '/../../.eslintrc')
+    return [ 'eslint' ]
+
+  elseif filereadable(getcwd() . '/.jshintrc')
+    return ['jshint']
+  else
+    return ['standard']
+  endif
+endfunction
+
+let g:syntastic_javascript_checkers = JavascriptCheckers()
+"let g:syntastic_javascript_checkers = ['jshint']
+"let g:syntastic_javascript_checkers = ['jsxhint', 'eslint']
+"let g:syntastic_javascript_checkers = ['eslint', 'jshint']
+"let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_html_tidy_ignore_errors=[" is not recognized!"]
+
+function! ToggleErrors()
+  let old_last_winnr = winnr('$')
+  lclose
+  if old_last_winnr == winnr('$')
+    " Nothing was closed, open syntastic error location panel
+    Errors
+  endif
+endfunction
+
+nnoremap <silent> <C-e> :<C-u>call ToggleErrors()<CR>
