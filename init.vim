@@ -7,6 +7,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'ggreer/the_silver_searcher' | Plug 'rking/ag.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
@@ -18,7 +19,6 @@ Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-Plug 'jaromero/vim-monokai-refined'
 Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'tpope/vim-surround'
 Plug 'scrooloose/syntastic'
@@ -126,7 +126,10 @@ set number
 
 let no_buffers_menu=1
 if !exists('g:not_finsh_neobundle')
-  colorscheme Monokai-Refined
+  " colorscheme smyck
+  " colorscheme jellybeans
+  colorscheme Benokai
+  " colorscheme CandyPaper
 endif
 
 set t_Co=256
