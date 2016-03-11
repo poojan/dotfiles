@@ -49,11 +49,14 @@ set backspace=indent,eol,start
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
+" set bs=2 " fixed backspace not working
 set expandtab
 
 autocmd FileType c setlocal sw=4 ts=4 sts=4
 autocmd FileType cpp setlocal sw=4 ts=4 sts=4
 autocmd FileType java setlocal sw=4 ts=4 sts=4
+autocmd FileType javascript setlocal sw=2 ts=2 sts=2 expandtab
+autocmd FileType javascript.jsx setlocal sw=2 ts=2 sts=2 expandtab
 autocmd FileType php setlocal sw=4 ts=4 sts=4
 
 "" Enable hidden buffers
@@ -67,8 +70,10 @@ set smartcase
 
 "" Encoding
 set bomb
-set binary
+" set binary " Commented since this interferes with backspace on indents
 
+"" Remove extra spaces on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 "" Match Tags
 runtime macros/matchit.vim
@@ -158,19 +163,13 @@ let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|di
 "http://kien.github.io/ctrlp.vim/
 let g:ctrlp_working_path_mode = 'a'
 
-" Deoplete
+"" Deoplete
 let g:deoplete#enable_at_startup = 1
 
-" vim-javascript
+"" vim-javascript
 let g:javascript_enable_domhtmlcss = 1
 
-augroup vimrc-javascript
-  autocmd!
-  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
-augroup END
-
-
-" NERDCommenter
+"" NERDCommenter
 let NERDSpaceDelims=1
 
 
