@@ -1,4 +1,4 @@
-let g:python_host_prog = '/opt/local/bin/python'
+﻿let g:python_host_prog = '/opt/local/bin/python'
 
 call plug#begin('~/.vim/plugged')
 
@@ -11,21 +11,28 @@ Plug 'flazz/vim-colorschemes'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'junegunn/vim-easy-align'
+Plug 'mattn/emmet-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'tpope/vim-surround'
+Plug 'keith/swift.vim'
 Plug 'scrooloose/syntastic'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
+" Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 " Plug 'ternjs/tern_for_vim'
+
+Plug 'chriskempson/base16-vim'
 
 call plug#end()
 
@@ -58,6 +65,8 @@ autocmd FileType java setlocal sw=4 ts=4 sts=4
 autocmd FileType javascript setlocal sw=2 ts=2 sts=2 expandtab
 autocmd FileType javascript.jsx setlocal sw=2 ts=2 sts=2 expandtab
 autocmd FileType php setlocal sw=4 ts=4 sts=4
+autocmd FileType swift setlocal sw=4 ts=4 sts=4
+autocmd FileType swift set autoread
 
 "" Enable hidden buffers
 set hidden
@@ -116,6 +125,8 @@ endfunc
 " Toggle between normal and relative numbering.
 nnoremap <leader>r :call NumberToggle()<cr>
 
+" Search and replace word under cursor using <leader>sr
+nnoremap <leader>sr :%s/<c-r><c-w>/<c-r><c-w>/gc<c-f>$F/i
 
 "*****************************************************************************
 "" Visual Settings
@@ -125,11 +136,14 @@ set ruler
 set number
 
 let no_buffers_menu=1
+set background=dark
 if !exists('g:not_finsh_neobundle')
   " colorscheme smyck
   " colorscheme jellybeans
   colorscheme Benokai
   " colorscheme CandyPaper
+  " colorscheme solarized
+  " colorscheme base16-railscasts
 endif
 
 set t_Co=256
@@ -146,8 +160,8 @@ set gfn=Monospace\ 10
 let g:airline_theme='molokai'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#show_tab_nr = 1
-"let g:airline#extensions#tabline#tab_nr_type = 2
+" let g:airline#extensions#tabline#show_tab_nr = 1
+" let g:airline#extensions#tabline#tab_nr_type = 2
 "
 let g:airline#extensions#tabline#buffer_idx_mode = 1
   nmap <leader>1 <Plug>AirlineSelectTab1
@@ -233,3 +247,6 @@ nnoremap <silent> <C-e> :<C-u>call ToggleErrors()<CR>
 nnoremap <leader>tt :TernType<cr>
 let g:tern#is_show_argument_hints_enabled = 1
 let tern#is_show_argument_hints_enabled = 1
+
+"" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-e>"
