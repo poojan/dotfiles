@@ -5,27 +5,45 @@ call plug#begin('~/.vim/plugged')
 " Make sure you use single quotes
 
 Plug 'ggreer/the_silver_searcher' | Plug 'rking/ag.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'bling/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+Plug 'ap/vim-buftabline'
 Plug 'flazz/vim-colorschemes'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'Shougo/deoplete.nvim'
+Plug 'will133/vim-dirdiff'
 Plug 'junegunn/vim-easy-align'
+Plug 'lambdatoast/elm.vim'
 Plug 'mattn/emmet-vim'
+" Plug 'flowtype/vim-flow', { 'for': 'javascript' }
+Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'digitaltoad/vim-jade', { 'for': 'jade' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'jelera/vim-javascript-syntax', { 'for': 'javascript' }
+Plug 'maksimr/vim-jsbeautify'
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'itchyny/lightline.vim'
+" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'drmingdrmer/vim-syntax-markdown'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'digitaltoad/vim-pug'
 Plug 'wavded/vim-stylus', { 'for': 'stylus' }
 Plug 'tpope/vim-surround'
 Plug 'keith/swift.vim'
 Plug 'scrooloose/syntastic'
+Plug 'godlygeek/tabular'
+Plug 'majutsushi/tagbar'
+Plug 'leafgarland/typescript-vim'
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'posva/vim-vue'
+Plug 'HerringtonDarkholme/yats.vim'
+
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 
 " Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer --clang-completer' }
@@ -78,7 +96,7 @@ set incsearch
 set smartcase
 
 "" Encoding
-set bomb
+" set bomb
 " set binary " Commented since this interferes with backspace on indents
 
 "" Remove extra spaces on save
@@ -160,25 +178,27 @@ set gfn=Monospace\ 10
 let g:airline_theme='molokai'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#show_tab_nr = 1
-" let g:airline#extensions#tabline#tab_nr_type = 2
+let g:airline#extensions#tabline#show_tab_nr = 1
+let g:airline#extensions#tabline#tab_nr_type = 2
 "
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-  nmap <leader>1 <Plug>AirlineSelectTab1
-  nmap <leader>2 <Plug>AirlineSelectTab2
-  nmap <leader>3 <Plug>AirlineSelectTab3
-  nmap <leader>4 <Plug>AirlineSelectTab4
-  nmap <leader>5 <Plug>AirlineSelectTab5
-  nmap <leader>6 <Plug>AirlineSelectTab6
-  nmap <leader>7 <Plug>AirlineSelectTab7
-  nmap <leader>8 <Plug>AirlineSelectTab8
-  nmap <leader>9 <Plug>AirlineSelectTab9
+  " nmap <leader>1 <Plug>AirlineSelectTab1
+  " nmap <leader>2 <Plug>AirlineSelectTab2
+  " nmap <leader>3 <Plug>AirlineSelectTab3
+  " nmap <leader>4 <Plug>AirlineSelectTab4
+  " nmap <leader>5 <Plug>AirlineSelectTab5
+  " nmap <leader>6 <Plug>AirlineSelectTab6
+  " nmap <leader>7 <Plug>AirlineSelectTab7
+  " nmap <leader>8 <Plug>AirlineSelectTab8
+  " nmap <leader>9 <Plug>AirlineSelectTab9
+  "
 
 
 "" CtrlP
 let g:ctrlp_custom_ignore = '\v[\/](hooks|www/lib|plugins|node_modules|target|dist|bower_components|ant-build|platforms)|(\.(swp|ico|git|svn))$'
 "http://kien.github.io/ctrlp.vim/
 let g:ctrlp_working_path_mode = 'a'
+nnoremap <Leader>b :CtrlPBuffer<CR>
 
 "" Deoplete
 let g:deoplete#enable_at_startup = 1
@@ -205,6 +225,7 @@ let g:syntastic_html_tidy_ignore_errors=[
   \'proprietary attribute "ion-',
   \'proprietary attribute "ui-'
 \]
+let g:syntastic_c_include_dirs = ['.']
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
@@ -215,21 +236,49 @@ function! JavascriptCheckers()
     "if !empty(glob(getcwd() . '/node_modules/.bin/eslint'))
       "return [ getcwd() . '/node_modules/.bin/eslint' ]
     "endif
-    return [ 'eslint' ]
+    " return [ 'eslint' ]
+    return [ './node_modules/.bin/eslint' ]
   elseif filereadable(getcwd() . '/../.eslintrc')
-    return [ 'eslint' ]
+    " return [ 'eslint' ]
+    return [ '../node_modules/.bin/eslint' ]
   elseif filereadable(getcwd() . '/../../.eslintrc')
+    " return [ 'eslint' ]
+    return [ '../../node_modules/.bin/eslint' ]
+  elseif filereadable($HOME . '/.eslintrc')
     return [ 'eslint' ]
 
   elseif filereadable(getcwd() . '/.jshintrc')
     return ['jshint']
-  else
-    return ['standard']
+  " else
+    " return ['standard']
   endif
 endfunction
 
-let g:syntastic_javascript_checkers = JavascriptCheckers()
+function! JavascriptCheckers2()
+  if filereadable(getcwd() . '/.eslintrc')
+    "if !empty(glob(getcwd() . '/node_modules/.bin/eslint'))
+      "return [ getcwd() . '/node_modules/.bin/eslint' ]
+    "endif
+    return [ getcwd() . '/node_modules/.bin/eslint' ]
+  elseif filereadable(getcwd() . '/../.eslintrc')
+    return [ getcwd() . '/../node_modules/.bin/eslint' ]
+  elseif filereadable(getcwd() . '/../../.eslintrc')
+    return [ getcwd() . '/../../node_modules/.bin/eslint' ]
+    " return [ 'eslint' ]
+  elseif filereadable($HOME . '/.eslintrc')
+    return [ 'eslint' ]
+
+  elseif filereadable(getcwd() . '/.jshintrc')
+    return ['jshint']
+  " else
+    " return ['standard']
+  endif
+endfunction
+
+" let g:syntastic_javascript_checkers = JavascriptCheckers2()
+let g:syntastic_javascript_checkers = [ "eslint" ]
 let g:syntastic_html_tidy_ignore_errors=[" is not recognized!"]
+let g:syntastic_cpp_config_file = '.syntastic_cpp_config'
 
 function! ToggleErrors()
   let old_last_winnr = winnr('$')
@@ -250,3 +299,93 @@ let tern#is_show_argument_hints_enabled = 1
 
 "" UltiSnips
 let g:UltiSnipsExpandTrigger="<c-e>"
+
+" let g:lightline = {
+      " \ 'colorscheme': 'wombat',
+      " \ }
+let g:lightline = {
+      \ 'colorscheme': 'molokai',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'fugitive', 'filename', 'modified' ] ],
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&filetype=="help"?"":&readonly?"⭤":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ }
+      \ }
+
+      " \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      " \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+" let g:lightline = {
+      " \ 'colorscheme': 'molokai',
+      " \ 'component': {
+      " \   'readonly': '%{&readonly?"⭤":""}',
+      " \ },
+      " \ 'separator': { 'left': '⮀', 'right': '⮂' },
+      " \ 'subseparator': { 'left': '⮁', 'right': '⮃' }
+      " \ }
+" let g:buftabline_numbers=2
+let g:buftabline_numbers=1
+let g:buftabline_indicators="on"
+let g:buftabline_separators="on"
+
+" augroup AutoSyntastic
+  " autocmd!
+  " autocmd BufWritePost *.c,*.cpp,*.js call s:syntastic()
+" augroup END
+" function! s:syntastic()
+  " SyntasticCheck
+  " call lightline#update()
+" endfunction
+
+" hi TabLine      ctermfg=Black  ctermbg=Green     cterm=NONE
+" hi TabLineFill  ctermfg=Black  ctermbg=Green     cterm=NONE
+" hi TabLineSel   ctermfg=White  ctermbg=DarkBlue  cterm=NONE
+
+" hi TabLineSel   ctermfg=White  ctermbg=73  cterm=NONE
+
+" hi TabLineFill     guifg=#1B1D1E guibg=#1B1D1E
+" hi TabLine         guibg=#1B1D1E guifg=#808080 gui=none
+
+
+hi TabLine      ctermfg=253  ctermbg=67     cterm=NONE
+hi TabLineFill  ctermfg=253  ctermbg=67     cterm=NONE
+hi TabLineSel   ctermfg=232  ctermbg=144  cterm=NONE
+
+" Mappings to access buffers (don't use "\p" because a
+" delay before pressing "p" would accidentally paste).
+" \l       : list buffers
+" \b \f \g : go back/forward/last-used
+" \1 \2 \3 : go to buffer 1/2/3 etc
+nnoremap <Leader>l :ls<CR>
+" nnoremap <Leader>b :bp<CR>
+" nnoremap <Leader>f :bn<CR>
+nnoremap <Leader>g :e#<CR>
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
+nnoremap <Leader>0 :10b<CR>
+" It's useful to show the buffer number in the status line.
+" set laststatus=2 statusline=%02n:%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+let g:Powerline_symbols = 'fancy'"
+
+" Tabular
+" :AddTabularPipeline multiple_spaces / \{2,}/
+  " \ map(a:lines, "substitute(v:val, ' \{2,}', '  ', 'g')")
+  " \   | tabular#TabularizeStrings(a:lines, '  ', 'l0')
+
+" Tagbar
+nmap <leader>; :TagbarToggle<CR>"

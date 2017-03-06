@@ -83,12 +83,16 @@ Bundle 'bling/vim-airline'
 Bundle 'Scuilion/gradle-syntastic-plugin'
 Bundle 'artur-shaik/vim-javacomplete2'
 Bundle 'tpope/vim-classpath'
+Bundle 'terryma/vim-multiple-cursors'
 
 " Themes
 Bundle 'jnurmine/Zenburn'
 Bundle 'tomasr/molokai'
 Bundle 'sickill/vim-monokai'
 Bundle 'jaromero/vim-monokai-refined'
+Bundle 'chriskempson/base16-vim'
+Bundle 'flazz/vim-colorschemes'
+
 
 
 
@@ -140,7 +144,8 @@ Bundle 'jaromero/vim-monokai-refined'
 set smartindent
 
 "color zenburn " set color scheme to desert
-color Monokai-Refined " set color scheme to desert
+" color Monokai-Refined " set color scheme to desert
+color Benokai " set color scheme to desert
 "color desert
 "set guifont=Consolas " set font to Consolas
 " using Source Code Pro
@@ -342,6 +347,8 @@ function! JavascriptCheckers()
   elseif filereadable(getcwd() . '/../.eslintrc')
     return [ 'eslint' ]
   elseif filereadable(getcwd() . '/../../.eslintrc')
+    return [ 'eslint' ]
+  elseif filereadable('~/.eslintrc')
     return [ 'eslint' ]
 
   elseif filereadable(getcwd() . '/.jshintrc')

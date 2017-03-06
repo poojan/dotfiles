@@ -29,9 +29,13 @@ function! s:SetColors(args)
       let i += 5
     endwhile
   elseif a:args == 'all'
-    let paths = split(globpath(&runtimepath, 'colors/*.vim'), "\n")
+    let colorschemespath = '/Users/poojan/.vim/plugged/vim-colorschemes/colors'
+
+    " let paths = split(globpath(&runtimepath, 'colors/*.vim'), "\n")
+    let paths = split(globpath(colorschemespath, 'colors/*.vim'), "\n")
     let s:mycolors = map(paths, 'fnamemodify(v:val, ":t:r")')
-    echo 'List of colors set from all installed color schemes'
+    " echo 'List of colors set from all installed color schemes'
+    echo s:mycolors
   elseif a:args == 'my'
     let c1 = 'default elflord peachpuff desert256 breeze morning'
     let c2 = 'darkblue gothic aqua earth black_angus relaxedgreen'
